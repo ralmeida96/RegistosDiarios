@@ -54,7 +54,7 @@ public partial class LoginPage : ContentPage
 
             // Extrair o campo "msg"
             string msg = root.GetProperty("msg").GetString();
-            await DisplayAlert("Erro", msg, "OK");
+            await DisplayAlert("Erro", msg, "OK"); 
         }
     }
 }

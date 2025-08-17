@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:RegistosDiarios.Model"
+             x:Class="RegistosDiarios.Views.LoginPage"
+             Title="Login" Shell.NavBarIsVisible="False"
+             Shell.FlyoutBehavior="Disabled">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
+    <Grid Background="#072fe0" x:DataType="{x:Type model:LoginModel}">
+        <Border StrokeShape="RoundRectangle 20,0,0,20" Padding="20" HorizontalOptions="Center" VerticalOptions="Center" Background="White">
+            <VerticalStackLayout>
+                <Label Text="Email"/>
+                <Entry WidthRequest="200" Text="{Binding Email}"/>
+                <Label Text="Password" Margin="0,5,0,0"/>
+                <Entry WidthRequest="200" IsPassword="True" Text="{Binding Password}"/>
+                <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="btnRegistar" Text="Registar" Margin="2" Clicked="btnRegistar_Clicked" Background="#cacccf"/>
+                    <Button x:Name="btnEntrar" Grid.Column="1" Text="Entrar" Margin="2" Clicked="btnEntrar_Clicked" Background="#072fe0"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

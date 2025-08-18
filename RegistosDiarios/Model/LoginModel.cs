@@ -1,14 +1,17 @@
-﻿using System;
+﻿using RegistosDiarios.Helpers;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace RegistosDiarios.Model
 {
-    public class LoginModel
+    public class LoginModel : NotifyObject
     {
         public string? Email { get; set; }
         public string? Password { get; set; }
+        public bool IsBusy { get; set; }
     }
 }

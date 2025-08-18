@@ -23,10 +23,12 @@ public partial class LoginPage : ContentPage
 		{
             if (_model == null) return;
 
+            _model.NotifyValue(nameof(_model.IsBusy), true);
             var session = await SupabaseService.SignIn(_model.Email ?? "", _model.Password ?? "");
             if (session != null)
             {
-                var userId = SupabaseService.CurrentUser?.Id;
+                _model.NotifyValue(nameof(_model.IsBusy), false);
+                await Shell.Current.GoToAsync("//RegistosSono");
             }
         }
 		catch (Exception ex)
@@ -41,20 +43,19 @@ public partial class LoginPage : ContentPage
         {
             if (_model == null) return;
 
+            _model.NotifyValue(nameof(_model.IsBusy), true);
             var session = await SupabaseService.SignUp(_model.Email ?? "", _model.Password ?? "");
             if (session != null)
             {
-                var userId = SupabaseService.CurrentUser?.Id;
+                _model.NotifyValue(nameof(_model.IsBusy), false);
+                await DisplayAlert("Atenção!", "Deves confirmar o registo no teu email antes de continuar.", "OK");
+                _model = new LoginModel();
+                BindingContext = _model;
             }
         }
         catch (Exception ex)
         {
-            using JsonDocument doc = JsonDocument.Parse(ex.Message);
-            JsonElement root = doc.RootElement;
-
-            // Extrair o campo "msg"
-            string msg = root.GetProperty("msg").GetString();
-            await DisplayAlert("Erro", msg, "OK"); 
+            await DisplayAlert("Erro", ex.Message, "OK"); 
         }
     }
 }

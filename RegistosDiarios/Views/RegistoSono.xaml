@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:RegistosDiarios.Model"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="RegistosDiarios.Views.RegistoSono"
+             x:DataType="{x:Type model:RegistoSonoModel}">
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </ContentPage.Resources>
+
+    <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <DatePicker Date="{Binding Data}" HorizontalOptions="Center" Margin="5"/>
+        <TimePicker Time="{Binding HoraInicio}" Format="HH:mm" HorizontalOptions="Center" Margin="5"/>
+        <TimePicker Time="{Binding HoraFim}" Format="HH:mm" HorizontalOptions="Center" Margin="5"/>
+        <Grid>
+            <Button x:Name="btnEntrar" IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" Text="Gravar" Margin="5" Clicked="btnGravar_Clicked" Background="#072fe0"/>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

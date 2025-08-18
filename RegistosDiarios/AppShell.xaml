@@ -8,7 +8,7 @@
        Title="RegistosDiarios">
 
     <ShellContent Title="Login" ContentTemplate="{DataTemplate views:LoginPage}" Route="LoginPage" FlyoutItemIsVisible="False"/>
-    <ShellContent Title="Registos Sono" ContentTemplate="{DataTemplate local:MainPage}" Route="RegistosSono" />
+    <ShellContent Title="Registos Sono" ContentTemplate="{DataTemplate views:RegistoSono}" Route="RegistosSono" />
     <ShellContent Title="Sair" ContentTemplate="{DataTemplate local:MainPage}" Route="Logout" />
 
 </Shell>

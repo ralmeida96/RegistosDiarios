@@ -24,8 +24,8 @@ namespace RegistosDiarios.Entities
         [Column("data")]
         public DateTime Data { get; set; }
         [Column("hora_acordar")]
-        public TimeSpan HoraAcordar { get; set; }
+        public TimeSpan? HoraAcordar { get; set; }
         [Column("hora_deitar")]
-        public TimeSpan HoraDeitar { get; set; }
+        public TimeSpan? HoraDeitar { get; set; }
     }
 }

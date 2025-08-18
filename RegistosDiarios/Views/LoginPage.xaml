@@ -2,9 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:RegistosDiarios.Model"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="RegistosDiarios.Views.LoginPage"
              Title="Login" Shell.NavBarIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
+
+    <ContentPage.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertedBoolConverter" />
+    </ContentPage.Resources>
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
@@ -22,8 +27,9 @@
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="btnRegistar" Text="Registar" Margin="2" Clicked="btnRegistar_Clicked" Background="#cacccf"/>
-                    <Button x:Name="btnEntrar" Grid.Column="1" Text="Entrar" Margin="2" Clicked="btnEntrar_Clicked" Background="#072fe0"/>
+                    <Button x:Name="btnRegistar" IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" Text="Registar" Margin="2" Clicked="btnRegistar_Clicked" Background="#cacccf"/>
+                    <Button x:Name="btnEntrar" IsVisible="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}" Grid.Column="1" Text="Entrar" Margin="2" Clicked="btnEntrar_Clicked" Background="#072fe0"/>
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" Grid.ColumnSpan="2"/>
                 </Grid>
             </VerticalStackLayout>
         </Border>

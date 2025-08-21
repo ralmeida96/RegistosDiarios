@@ -23,16 +23,15 @@ namespace RegistosDiarios.DataManagement
             return response.Models;
         }
 
-        public async Task InserirRegistoSono(Guid userId, DateTime data, TimeSpan horaDeitar, TimeSpan horaAcordar)
+        public async Task InserirRegistoSono(Guid userId, DateTime dataAcordar, DateTime? dataDeitar)
         {
             if (SupabaseService.SupabaseClient == null) return;
 
             var registo = new RegistoSono
             {
                 UserId = userId,
-                Data = data,
-                HoraDeitar = horaDeitar,
-                HoraAcordar = horaAcordar
+                DataAcordar = dataAcordar,
+                DataDeitar = dataDeitar,
             };
 
             await SupabaseService.SupabaseClient.From<RegistoSono>().Insert(registo);

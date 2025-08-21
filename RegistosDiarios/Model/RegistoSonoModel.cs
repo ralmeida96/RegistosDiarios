@@ -11,14 +11,14 @@ namespace RegistosDiarios.Model
 {
     public class RegistoSonoModel : NotifyObject
     {
-        public DateTime Data { get; set; }
+        public DateTime DataAcordar { get; set; }
         public TimeSpan? HoraAcordar { get; set; }
         public TimeSpan? HoraDeitar { get; set; }
         public bool IsBusy { get; set; }
 
         public RegistoSonoModel()
         {
-            Data = DateTime.Today;
+            DataAcordar = DateTime.Today;
         }
 
         public async Task Carregar()
@@ -30,15 +30,16 @@ namespace RegistosDiarios.Model
             var _resultado = await SupabaseService.SupabaseClient
                 .From<RegistoSono>()
                 .Filter("user_id", Supabase.Postgrest.Constants.Operator.Equals, userId)
-                .Filter("data", Supabase.Postgrest.Constants.Operator.Equals, Data.ToString("yyyy-MM-dd"))
+                .Filter("data_acordar", Supabase.Postgrest.Constants.Operator.Equals, DataAcordar.Date.ToString("yyyy-MM-dd"))
                 .Get();
 
             var _registo = _resultado.Models.FirstOrDefault();
             if (_registo != null)
             {
-                Data = _registo.Data;
-                HoraAcordar = _registo.HoraAcordar;
-                HoraDeitar = _registo.HoraDeitar;
+                DataAcordar = _registo.DataAcordar.Date;
+                HoraAcordar = _registo.DataAcordar.TimeOfDay;
+                if (_registo.DataDeitar.HasValue)
+                    HoraDeitar = _registo.DataDeitar.Value.TimeOfDay;
             }
         }
 
@@ -50,12 +51,26 @@ namespace RegistosDiarios.Model
 
             var userId = SupabaseService.CurrentUser?.Id;
 
+            DateTime _acordar = DataAcordar.Date.Add(HoraAcordar.GetValueOrDefault(new TimeSpan()));
+            DateTime? _deitar = null;
+
+            if (HoraDeitar.HasValue)
+            {
+                if (HoraDeitar.Value < HoraAcordar.GetValueOrDefault(new TimeSpan()))
+                    _deitar = _acordar.Date.AddDays(1).Add(HoraDeitar.Value);
+                else
+                    _deitar = DataAcordar.Date.Add(HoraDeitar.Value);
+            }
+            
+            //TODO:: Está a gravar com um  dia antes do selecionado
+
             var registo = new RegistoSono
             {
                 UserId = Guid.Parse(userId),
-                Data = Data,
-                HoraDeitar = HoraDeitar,
-                HoraAcordar = HoraAcordar
+                DataAcordar = _acordar.Date,
+                HoraAcordar = _acordar.TimeOfDay,
+                DataDeitar = _deitar.HasValue ? _deitar.Value.Date : null,
+                HoraDeitar = _deitar.HasValue ? _deitar.Value.TimeOfDay : null,
             };
 
             await SupabaseService.SupabaseClient.From<RegistoSono>().Insert(registo);

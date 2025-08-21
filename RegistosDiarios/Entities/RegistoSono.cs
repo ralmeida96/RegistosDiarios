@@ -21,10 +21,12 @@ namespace RegistosDiarios.Entities
         public int Id { get; set; }
         [Column("user_id")]
         public Guid UserId { get; set; }
-        [Column("data")]
-        public DateTime Data { get; set; }
+        [Column("data_acordar")]
+        public DateTime DataAcordar { get; set; }
         [Column("hora_acordar")]
         public TimeSpan? HoraAcordar { get; set; }
+        [Column("data_deitar")]
+        public DateTime? DataDeitar { get; set; }
         [Column("hora_deitar")]
         public TimeSpan? HoraDeitar { get; set; }
     }
